@@ -1,15 +1,14 @@
 import os
 import json
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_community.vectorstores import Chroma
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+current_path = os.path.dirname(os.path.abspath(__file__))
+parent_path = os.path.dirname(current_path)
+print(parent_path)
+
+books_dir_path = os.path.join(parent_path,"books")
+files = os.listdir(books_dir_path)
 
 
-file_path = os.path.abspath("books/UG-Student-Handbook.pdf")
-books_dir = os.path.dirname(file_path)  
-
-files = os.listdir(books_dir)
 
 university_metadata = {}
 
@@ -27,11 +26,13 @@ for file in files:
         fileData = file.split("-")
         universityName = fileData[0] if len(fileData) > 0  else "unknown"
         universityDocType = fileData[1] if len(fileData) > 1 else "unknown"
-        
+
+
+
         metadata = {
             "filename" : file,
             "type"     : universityDocType,
-            "path"     : os.path.abspath(file)
+            "path"     : os.path.join(books_dir_path,file)
         }
         
         if universityName not in university_metadata:
@@ -43,6 +44,9 @@ for file in files:
 
 with open("university_metadata.json","w") as file:
     json.dump(university_metadata,file,indent = 4)
+
+
+
 
 
 
