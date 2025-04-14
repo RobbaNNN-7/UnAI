@@ -19,7 +19,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 with open("metadata/university_metadata.json","r") as f:
     metadata = json.load(f)
 
-# TODO: GET PATHS FROM THE JSON , AND VECTORIZE
+
+# # TODO: GET PATHS FROM THE JSON , AND VECTORIZE
 
 current_dir = os.path.dirname(os.path.abspath(__file__)) #scripts
 parent_dir = os.path.dirname(current_dir) #UnAI
@@ -44,12 +45,35 @@ db = Chroma(
 
 print(" Creating/Loading Chroma Database ")
 
+uni_name = ""
+uni_doc_type = ""
+uni_doc_path = ""
 
 for path in file_paths:
-    
-    # Loading the Documents
-    loader = PyPDFLoader(path)
-    document = loader.load()
+
+    """ Before Splitting the Data , We Need to Update the MetaData """
+
+    for data in metadata:
+        uni_data = metadata.get(data,[])
+        uni_name = data
+        for docs in uni_data:
+            
+            # Initialzing Variables
+            uni_doc_type = docs["type"]
+            uni_doc_path = docs["path"]
+
+            # Loading Document and Updating Metadata
+            loader = PyPDFLoader(path)
+            document = loader.load()
+
+            for docs in document:
+                docs.metadata.update(
+                    {
+                        "university_name" : uni_name,
+                        "document_type"   : uni_doc_type,
+                        "document_path"   : uni_doc_path 
+                    }
+                )
 
     # Splitting the Documents
     textSplitter = RecursiveCharacterTextSplitter(chunk_size = 1400,chunk_overlap = 400)
@@ -60,8 +84,6 @@ for path in file_paths:
         documents = chunks
     )
     # db.persist()
-
-
 
 
 print("Finished vectorizing and adding documents.")
