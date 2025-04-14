@@ -1,31 +1,31 @@
 {
     "NUST": [
         {
-            "filename": "NUST-PROSPECTUS.pdf",
+            "filename": "NUST-PROSPECTUS",
             "type": "PROSPECTUS.pdf",
             "path": "/Users/robbannn/Documents/UnAI/books/NUST-PROSPECTUS.pdf"
         },
         {
-            "filename": "NUST-GUIDE.pdf",
+            "filename": "NUST-GUIDE",
             "type": "GUIDE.pdf",
             "path": "/Users/robbannn/Documents/UnAI/books/NUST-GUIDE.pdf"
         },
         {
-            "filename": "NUST-HANDBOOK.pdf",
+            "filename": "NUST-HANDBOOK",
             "type": "HANDBOOK.pdf",
             "path": "/Users/robbannn/Documents/UnAI/books/NUST-HANDBOOK.pdf"
         }
     ],
     "QAU": [
         {
-            "filename": "QAU-PROSPECTUS.pdf",
+            "filename": "QAU-PROSPECTUS",
             "type": "PROSPECTUS.pdf",
             "path": "/Users/robbannn/Documents/UnAI/books/QAU-PROSPECTUS.pdf"
         }
     ],
     "LUMS": [
         {
-            "filename": "LUMS-PROSPECTUS.pdf",
+            "filename": "LUMS-PROSPECTUS",
             "type": "PROSPECTUS.pdf",
             "path": "/Users/robbannn/Documents/UnAI/books/LUMS-PROSPECTUS.pdf"
         }

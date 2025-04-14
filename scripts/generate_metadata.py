@@ -30,7 +30,7 @@ for file in files:
 
 
         metadata = {
-            "filename" : file,
+            "filename" : file.replace(".pdf",""),
             "type"     : universityDocType,
             "path"     : os.path.join(books_dir_path,file)
         }
