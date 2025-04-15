@@ -25,13 +25,13 @@ with open("metadata/university_metadata.json","r") as f:
 current_dir = os.path.dirname(os.path.abspath(__file__)) #scripts
 parent_dir = os.path.dirname(current_dir) #UnAI
 persistent_directory = os.path.join(parent_dir,"db","Chroma") #UnAI/db/Chroma
-file_paths = []
+# file_paths = []
 
-for data in metadata:
-    uni_data = metadata.get(data,[]) # [] includes the documents for a specific university
-    for doc in uni_data:
-        """ Now file_paths has all the Paths """
-        file_paths.append(doc["path"])
+# for data in metadata:
+#     uni_data = metadata.get(data,[]) # [] includes all the documents for a specific university
+#     for doc in uni_data:
+#         """ Now file_paths has all the Paths """
+#         file_paths.append(doc["path"])
 
 
 """ Starting Vectorization Process """
@@ -49,41 +49,45 @@ uni_name = ""
 uni_doc_type = ""
 uni_doc_path = ""
 
-for path in file_paths:
+for uni_name,uni_docs in metadata.items():
+    uni_name = uni_name
+    for doc in uni_docs:
+        uni_doc_type = doc["type"]
+        uni_doc_path = doc["path"]
 
-    """ Before Splitting the Data , We Need to Update the MetaData """
+        if not (os.path.exists(uni_doc_path)):
+            raise FileNotFoundError(f"Could Not Find {uni_doc_path}. Does Not Exist")
+    
+        # Loading the documents
+        loader = PyPDFLoader(uni_doc_path)
+        documents = loader.load()
 
-    for data in metadata:
-        uni_data = metadata.get(data,[])
-        uni_name = data
-        for docs in uni_data:
+        # Updating Metadata
+        for document in documents:
+            document.metadata.update({
+
+                "university_name" : uni_name,
+                "type"            : uni_doc_type,
+                "path"            : uni_doc_path
+            }
+            )
+             
             
-            # Initialzing Variables
-            uni_doc_type = docs["type"]
-            uni_doc_path = docs["path"]
+        # Splitting the Document
+        textSplitter = RecursiveCharacterTextSplitter(chunk_size = 1500,chunk_overlap = 400)
+        chunks = textSplitter.split_documents(documents)
 
-            # Loading Document and Updating Metadata
-            loader = PyPDFLoader(path)
-            document = loader.load()
 
-            for docs in document:
-                docs.metadata.update(
-                    {
-                        "university_name" : uni_name,
-                        "document_type"   : uni_doc_type,
-                        "document_path"   : uni_doc_path 
-                    }
-                )
+        # Vectorizing
+        db.add_documents(
+            documents = chunks
+        )
 
-    # Splitting the Documents
-    textSplitter = RecursiveCharacterTextSplitter(chunk_size = 1400,chunk_overlap = 400)
-    chunks = textSplitter.split_documents(document)
+        print(f"Vectorized :  {len(chunks)} , MetaData : ",{documents[0].metadata["university_name"]},documents[0].metadata["type"],documents[0].metadata["path"])
+        print()
 
-    # Vectorizing
-    db.add_documents(
-        documents = chunks
-    )
-    # db.persist()
+        # db.persist()
+
 
 
 print("Finished vectorizing and adding documents.")
