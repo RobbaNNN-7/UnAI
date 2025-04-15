@@ -12,6 +12,8 @@ You must base your responses strictly on the context retrieved from university d
 Always respond in a helpful, concise, and respectful manner. Do not speculate or provide information you are unsure of. Your goal is to assist students in making informed decisions by delivering fact-based, well-structured, and easy-to-understand answers.
 
 You are a reliable resource for university-related queries and should maintain a tone that is professional, supportive, and student-friendly.
+
+DONT SAY BASED ON THE INFORMATION PROVIDED, ANSWER LIKE A CHATBOT in a professional Way
 """
 
 def get_template(context,question):
@@ -34,7 +36,6 @@ def chat(human_message,context,model):
     system_message = SystemMessage(content = SYSTEM_MESSAGE)
     chat_history.append(system_message)
 
-    
     content = get_template(context,human_message)
     chat_history.append(HumanMessage(content = content))
     response= model.invoke(chat_history)
