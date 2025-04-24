@@ -1,4 +1,4 @@
-# 🎓 Pakistani University Information Retrieval Bot
+# 🎓 University Information Retrieval Bot
 
 An AI-powered chatbot assistant built to help students get accurate, document-backed information about **universities in Pakistan**. It leverages semantic search and LLMs to answer queries related to admissions, programs, faculty, campus life, and more — based on real university documents.
 ---
