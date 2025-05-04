@@ -27,6 +27,7 @@ parent_dir = os.path.dirname(current_dir) #UnAI
 persistent_directory = os.path.join(parent_dir,"db","Chroma") #UnAI/db/Chroma
 # file_paths = []
 
+# FILE PATHS ARE ALREADY PRESENT , NO NEED TO DUPLICATE
 # for data in metadata:
 #     uni_data = metadata.get(data,[]) # [] includes all the documents for a specific university
 #     for doc in uni_data:
